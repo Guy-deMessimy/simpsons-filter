@@ -5,6 +5,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      SimpsonsOnly: false,
       quoteList: [
         {
           quote:
@@ -83,13 +84,21 @@ class App extends Component {
         }
       ]
     };
+    this.handleSimpsonsOnlyClick = this.handleSimpsonsOnlyClick.bind(this);
   }
-
+  handleSimpsonsOnlyClick() {
+    this.setState({SimpsonsOnly: !this.state.SimpsonsOnly});
+  }
   render() {
     return (
       <div>
-        {this.state.quoteList.map((quote, index) => (
-          <QuoteCard {...quote} />
+        <button onClick={this.handleSimpsonsOnlyClick}>
+          Show only Simpsons Quotes : {this.state.SimpsonsOnly ? 'ON' : 'OFF'}
+        </button>
+        {this.state.quoteList
+        .filter(simpsons => !this.state.SimpsonsOnly || simpsons.character.includes('Simpson'))
+        .map((quote, index) => (
+          <QuoteCard key={index} {...quote} />
         ))}
       </div>
     );
